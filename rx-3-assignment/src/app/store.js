@@ -4,7 +4,7 @@ import { studentSlice } from "../features/students/studentSlice";
 
 export default configureStore({
     reducer: {
-        student: schoolSlice.reducer,
-        school: studentSlice.reducer
+        students: studentSlice.reducer,
+        school: schoolSlice.reducer
     }
 })
