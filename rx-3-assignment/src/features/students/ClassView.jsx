@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import "./student.css";
 import { setFilter, setSortBy } from "./studentSlice";
@@ -58,6 +59,7 @@ const ClassView = () => {
             ))}
         </ul>
         </div> 
+        <Footer/>
         </>
     )
 }

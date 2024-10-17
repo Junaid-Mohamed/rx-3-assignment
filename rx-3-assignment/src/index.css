@@ -1,0 +1,26 @@
+/* Add this CSS */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    text-align: center;
+    background-color: #f8f9fa; /* light gray */
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+    bottom: 0;
+}

@@ -2,6 +2,7 @@ import { data } from "jquery";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import "./student.css";
 import StudentList from "./StudentList";
@@ -34,7 +35,7 @@ const StudentView = () => {
             {status === "error" && <p>error</p>}
             {status === "Success" && <StudentList data={stdData.students}/>}
             </main>
-            
+            <Footer/>
         </div>
     )
 }

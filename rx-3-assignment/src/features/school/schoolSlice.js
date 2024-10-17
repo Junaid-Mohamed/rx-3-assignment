@@ -4,10 +4,23 @@ import axios from "axios";
 export const schoolSlice = createSlice({
     name:'school',
     initialState: {
-    status: 'idle',
-    error: null
+        totalStudents: 0,
+        avgAttendance: 0,
+        avgmarks: 0,
+        topPerformer: "",
+        status: 'idle',
+        error: null
     },
-    reducers: {}
+    reducers: {
+        updateSchoolStats: (state,action)=>{
+            const {totalStuds, avgAttendance, avgMarks, topper} = action.payload;
+            state.totalStudents = totalStuds,
+            state.avgAttendance = avgAttendance,
+            state.avgmarks = avgMarks,
+            state.topPerformer = topper
+        }
+    }
 })
 
+export const {updateSchoolStats} = schoolSlice.actions;
 export default schoolSlice.reducer;

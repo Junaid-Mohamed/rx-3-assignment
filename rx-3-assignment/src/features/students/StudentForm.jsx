@@ -124,6 +124,7 @@ const StudentForm = () => {
             <button onClick={handleSubmit} type="button" >Add</button>}
             </form>
         </div>
+        <Footer/>
         </>
     )
 }

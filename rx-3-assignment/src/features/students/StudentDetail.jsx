@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import "../../App.css";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import "./student.css";
 import { deleteStudentAsync } from "./studentSlice";
@@ -29,6 +31,7 @@ const StudentDetail = () => {
             </div>
             }
         </div>
+        <Footer/>
         </>
     )
 }
