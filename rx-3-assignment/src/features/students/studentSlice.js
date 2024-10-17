@@ -49,10 +49,21 @@ export const studentSlice = createSlice({
     name:'students',
     initialState: {
         students: [],
+        filter:"all",
+        sortBy: "name",
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+
+        setFilter: (state,action) => {
+            state.filter = action.payload
+        },
+        setSortBy: (state, action) => {
+            state.sortBy = action.payload
+        }
+
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchStudents.pending, (state)=> {
             state.status = "loading"
@@ -61,6 +72,7 @@ export const studentSlice = createSlice({
             // console.log(action.payload);
             state.status="Success"
             state.students = action.payload;
+            // console.log("Fetched students", state.students);debugging
             
         })
         builder.addCase(fetchStudents.rejected, (state,action)=>{
@@ -102,8 +114,20 @@ export const studentSlice = createSlice({
             state.error = action.payload
         })
 
+        //  for students/delete-student
+        builder.addCase(deleteStudentAsync.pending, (state)=> {
+            state.status = 'loading..'
+        })
+        builder.addCase(deleteStudentAsync.fulfilled, (state, action)=> {
+            state.status = "Success";
+            state.students = state.students.filter((stud)=> stud.id === action.payload._id);
+        })
+        builder.addCase(deleteStudentAsync.rejected,(state,action)=>{
+            state.status = "error";
+            state.error = action.payload;
+        })
     }
 })
 
-// export const  {addStudentAsync} = studentSlice.actions;
+export const  {setSortBy, setFilter} = studentSlice.actions;
 export default studentSlice.reducer;

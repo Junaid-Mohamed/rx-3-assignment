@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import store from "./app/store.js";
 import SchoolView from './features/school/SchoolView.jsx';
+import ClassView from "./features/students/ClassView.jsx";
 import StudentDetail from "./features/students/StudentDetail.jsx";
 import StudentForm from "./features/students/StudentForm.jsx";
 
@@ -28,8 +29,12 @@ const router = createBrowserRouter([
     element: <StudentDetail/>
   },
   {
-    path:'/schools',
+    path:'/school',
     element: <SchoolView/>
+  },
+  {
+    path: '/class',
+    element: <ClassView/>
   }
 ])
 
