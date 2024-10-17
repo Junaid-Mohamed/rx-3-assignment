@@ -22,12 +22,12 @@ const StudentDetail = () => {
             <p>Grade: {student.grade}</p>
             {student.attendance && <p>Attendance: {student.attendance}</p>}
             {student.marks && <p>Marks: {student.marks}</p>}
-            <button  className="btn btn-warning"> <Link to={``}>Edit Details</Link></button><button className="btn btn-danger delete-btn" >Delete</button> 
+            <button  className="btn btn-warning"> <Link to="/add-student" state={{student}} >Edit Details</Link></button><button className="btn btn-danger delete-btn" >Delete</button> 
             </div>
             }
         </div>
         </>
     )
 }
-
+// to={{pathname:'/add-student', state: {student}}}
 export default StudentDetail;

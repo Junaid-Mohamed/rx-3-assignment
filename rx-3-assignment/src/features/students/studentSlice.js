@@ -18,6 +18,17 @@ export const addStudentAsync = createAsyncThunk("students/add-student", async(st
     }
 })
 
+export const updateStudentAsync = createAsyncThunk("students/update-student", async(studentData, {rejectWithValue})=> {
+    try{
+        console.log(studentData);
+        const response = await axios.put(`https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students/${studentData.id}`, studentData);
+        console.log(response);
+        return response.data;
+    }catch(error){
+        rejectWithValue(error.message);
+    }
+})
+
 export const studentSlice = createSlice({
     name:'students',
     initialState: {
@@ -55,6 +66,25 @@ export const studentSlice = createSlice({
         })
         builder.addCase(addStudentAsync.rejected, (state, action)=> {
             state.status = 'rejected'
+        })
+
+         // for students/update-student
+         builder.addCase(updateStudentAsync.pending, (state)=> {
+            state.status = "loaading"
+        })
+        builder.addCase(updateStudentAsync.fulfilled, (state,action)=> {
+            state.status="Success";
+            // find the index and upate the array with updated-student value
+            const index = state.students.findIndex((stud)=> stud.id === action.payload._id);
+            if(index !== -1){
+                state.students[index] = action.payload;
+                console.log(state.students);
+                console.log(state);
+            }
+        })
+        builder.addCase(updateStudentAsync.rejected, (state, action)=> {
+            state.status = 'rejected';
+
         })
     }
 })

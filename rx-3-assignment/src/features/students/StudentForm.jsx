@@ -1,27 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Header from "../../components/Header";
-import { addStudentAsync } from "./studentSlice";
+import { addStudentAsync, updateStudentAsync } from "./studentSlice";
 
 const StudentForm = () => {
 
     const dispatch = useDispatch();
     
+    const {student} = useLocation().state;
+    console.log(student);
 
     const [studentForm, setStudentForm] = useState({
+        id: "",
         name:"",
         age:"",
         grade:"",
-        gender:""
+        gender:"",
+        attendance: "",
+        marks: ""
     })
 
     const [errors, setErros] = useState({});
+
+    //  prepopulate the form only when student data changes.
+    useEffect(()=>{
+        setStudentForm({
+            id: student._id || "",
+            name: student.name|| "",
+            age: student.age || "",
+            grade: student.grade || "",
+            gender: student.gender || "",
+            attendance: student.attendance || "",
+            marks: student.marks || ""
+        })
+    },[student])
 
     const handleChange = (e) => {
         const {name,value} = e.target;
         setStudentForm({
             ...studentForm,
-            [name]: name === "age"? parseInt(value): value
+            [name]: name === "age" || name === "attendance" || name === "marks"  ?   parseInt(value): value
         })
     }
 
@@ -44,19 +63,27 @@ const StudentForm = () => {
             newError.gender = "Gender is required."
         }
 
+        if(studentForm.attendance && (studentForm.attendance < 0 || studentForm.attendance > 100)){
+            newError.attendance = "Attendance must be between 0 and 100."
+        }
+        if(studentForm.marks && (studentForm.marks < 0 || studentForm.marks > 100)){
+            newError.marks = "Marks must be between 0 and 100."
+        }
+
         return newError;
 
     }
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
+        // e.preventDefault(); not using this as we are not submiting the form.
         const formErrors = validateForm();
         if(Object.keys(formErrors).length > 0){
             setErros(formErrors)
         }else{
             setErros({});
             console.log(studentForm);
-            dispatch(addStudentAsync(studentForm))
+            if(student) dispatch(updateStudentAsync(studentForm))
+            else dispatch(addStudentAsync(studentForm))
         }
         
     }
@@ -77,19 +104,28 @@ const StudentForm = () => {
             {errors.grade && <p style={{color: "red"}} >{errors.grade}</p> }
             </div>
             <div><label htmlFor="gender" >Gender</label>
-            <input required type="radio" name="gender" value="male" onChange={handleChange} />Male
-            <input required type="radio" name="gender" value="female" onChange={handleChange} />Female <br /><br />
+            <input required type="radio" checked={studentForm.gender === "male"} name="gender" className="gender-input" value="male" onChange={handleChange} />Male
+            <input required type="radio" checked={studentForm.gender === "female"} name="gender" className="gender-input" value="female" onChange={handleChange} />Female <br /><br />
             {errors.gender && <p style={{color: "red"}} >{errors.gender}</p> }
             </div>
-            <button onClick={handleSubmit} type="button" >Add</button>
+            
+            { student && (
+                <>
+            <div><input  type="number" placeholder="Attendance"  name="attendance" value={studentForm.attendance} onChange={handleChange}/><br /><br />
+            {errors.attendance && <p style={{color: "red"}} >{errors.attendance}</p> }
+            </div>
+            <div><input  type="number" placeholder="Marks"  name="marks" value={studentForm.marks} onChange={handleChange}/><br /><br />
+            {errors.marks && <p style={{color: "red"}} >{errors.marks}</p> }
+            </div>
+            </>
+            )}
+            
+            { student && (<button onClick={handleSubmit} type="button" className="btn btn-primary">Update</button>) ||
+            <button onClick={handleSubmit} type="button" >Add</button>}
             </form>
         </div>
         </>
     )
 }
-
-// todo 
-//  attendance and marks to be added if editing an existing student.
-
 
 export default StudentForm;
