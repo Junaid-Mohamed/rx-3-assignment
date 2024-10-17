@@ -1,20 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchStudents = createAsyncThunk("students/fetchStudents" , async ()=>{
+export const fetchStudents = createAsyncThunk("students/fetchStudents" , async (_,{rejectWithValue})=>{
+   try{
     const response = await axios.get("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students");
     // console.log(response);
     return response.data;
+   }catch(error){
+    return rejectWithValue(error.message);
+   }
+    
 })
 
 export const addStudentAsync = createAsyncThunk("students/add-student", async(studentData, {rejectWithValue}) => {
     try{
         const response = await axios.post("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students", studentData);
-        console.log(response);
+    
         return response.data;
     }catch(error){
         // console.log(error.message);
-        rejectWithValue(error.message);
+        return rejectWithValue(error.message);
     }
 })
 
@@ -22,10 +27,21 @@ export const updateStudentAsync = createAsyncThunk("students/update-student", as
     try{
         console.log(studentData);
         const response = await axios.put(`https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students/${studentData.id}`, studentData);
+       
+        return response.data;
+    }catch(error){
+        return rejectWithValue(error.message);
+    }
+})
+
+export const deleteStudentAsync = createAsyncThunk("students/delete-student", async (studentId, {rejectWithValue})=> {
+    try{
+        console.log(studentId);
+        const response = await axios.delete(`https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students/${studentId}`);
         console.log(response);
         return response.data;
     }catch(error){
-        rejectWithValue(error.message);
+        return rejectWithValue(error.message);
     }
 })
 
@@ -56,7 +72,7 @@ export const studentSlice = createSlice({
 
         // for students/add-student
         builder.addCase(addStudentAsync.pending, (state)=> {
-            state.status = "loaading"
+            state.status = "loading"
         })
         builder.addCase(addStudentAsync.fulfilled, (state,action)=> {
             state.status="Success",
@@ -66,11 +82,12 @@ export const studentSlice = createSlice({
         })
         builder.addCase(addStudentAsync.rejected, (state, action)=> {
             state.status = 'rejected'
+            state.error = action.payload;
         })
 
          // for students/update-student
          builder.addCase(updateStudentAsync.pending, (state)=> {
-            state.status = "loaading"
+            state.status = "loading"
         })
         builder.addCase(updateStudentAsync.fulfilled, (state,action)=> {
             state.status="Success";
@@ -78,14 +95,13 @@ export const studentSlice = createSlice({
             const index = state.students.findIndex((stud)=> stud.id === action.payload._id);
             if(index !== -1){
                 state.students[index] = action.payload;
-                console.log(state.students);
-                console.log(state);
             }
         })
         builder.addCase(updateStudentAsync.rejected, (state, action)=> {
             state.status = 'rejected';
-
+            state.error = action.payload
         })
+
     }
 })
 

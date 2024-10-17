@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import "./student.css";
+import { deleteStudentAsync } from "./studentSlice";
 
 const StudentDetail = () => {
 
@@ -10,6 +11,8 @@ const StudentDetail = () => {
 
     const student = useSelector((state)=> state.students.students.find((stud)=> stud._id === studentId));
     console.log(student);
+
+    const disptach = useDispatch();
 
     return(
         <>
@@ -22,7 +25,7 @@ const StudentDetail = () => {
             <p>Grade: {student.grade}</p>
             {student.attendance && <p>Attendance: {student.attendance}</p>}
             {student.marks && <p>Marks: {student.marks}</p>}
-            <button  className="btn btn-warning"> <Link to="/add-student" state={{student}} >Edit Details</Link></button><button className="btn btn-danger delete-btn" >Delete</button> 
+            <button  className="btn btn-warning"> <Link to="/add-student" state={{student}} >Edit Details</Link></button><button className="btn btn-danger delete-btn" onClick={()=> disptach(deleteStudentAsync(student._id))} >Delete</button> 
             </div>
             }
         </div>
