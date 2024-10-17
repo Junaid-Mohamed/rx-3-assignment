@@ -8,17 +8,14 @@ export const fetchStudents = createAsyncThunk("students/fetchStudents" , async (
 })
 
 export const addStudentAsync = createAsyncThunk("students/add-student", async(studentData, {rejectWithValue}) => {
-    console.log(studentData);
-    // const response = await fetch("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students",{
-    //     method: "POST",
-    //     headers:{
-    //         'Content-Type':'application/json'
-    //     },
-    //     body: JSON.stringify(studentData)
-    // })
-    const response = await axios.post("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students", studentData);
-    // const data = await response.json();
-    console.log(response);
+    try{
+        const response = await axios.post("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students", studentData);
+        console.log(response);
+        return response.data;
+    }catch(error){
+        // console.log(error.message);
+        rejectWithValue(error.message);
+    }
 })
 
 export const studentSlice = createSlice({
@@ -28,13 +25,7 @@ export const studentSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {
-        // addStudentAsync: async (state, action) => {
-        //     console.log(action.payload);
-        //     // const response = await axios.post("");
-        //     // console.log(response);
-        // }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchStudents.pending, (state)=> {
             state.status = "loading"
@@ -50,6 +41,20 @@ export const studentSlice = createSlice({
             // console.log(action.payload);
             console.log(action.payload);
             state.error = action.payload;
+        })
+
+        // for students/add-student
+        builder.addCase(addStudentAsync.pending, (state)=> {
+            state.status = "loaading"
+        })
+        builder.addCase(addStudentAsync.fulfilled, (state,action)=> {
+            state.status="Success",
+            state.students.push(action.payload);
+            // console.log(state);
+            // console.log(action.payload);
+        })
+        builder.addCase(addStudentAsync.rejected, (state, action)=> {
+            state.status = 'rejected'
         })
     }
 })

@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import store from "./app/store.js";
 import SchoolView from './features/school/SchoolView.jsx';
+import StudentDetail from "./features/students/StudentDetail.jsx";
 import StudentForm from "./features/students/StudentForm.jsx";
 import StudentView from './features/students/StudentView.jsx';
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path:'/add-student',
     element: <StudentForm/>
+  },
+  {
+    path:'/student-details/:studentId',
+    element: <StudentDetail/>
   },
   {
     path:'/schools',
