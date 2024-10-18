@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchStudents = createAsyncThunk("students/fetchStudents" , async (_,{rejectWithValue})=>{
    try{
-    const response = await axios.get("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students");
+    const response = await axios.get("https://rx-3-assignment-be.vercel.app/students");
     // console.log(response);
     return response.data;
    }catch(error){
@@ -14,7 +14,7 @@ export const fetchStudents = createAsyncThunk("students/fetchStudents" , async (
 
 export const addStudentAsync = createAsyncThunk("students/add-student", async(studentData, {rejectWithValue}) => {
     try{
-        const response = await axios.post("https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students", studentData);
+        const response = await axios.post("https://rx-3-assignment-be.vercel.app/students", studentData);
     
         return response.data;
     }catch(error){
@@ -26,7 +26,7 @@ export const addStudentAsync = createAsyncThunk("students/add-student", async(st
 export const updateStudentAsync = createAsyncThunk("students/update-student", async(studentData, {rejectWithValue})=> {
     try{
         console.log(studentData);
-        const response = await axios.put(`https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students/${studentData.id}`, studentData);
+        const response = await axios.put(`https://rx-3-assignment-be.vercel.app/students/${studentData.id}`, studentData);
        
         return response.data;
     }catch(error){
@@ -37,7 +37,7 @@ export const updateStudentAsync = createAsyncThunk("students/update-student", as
 export const deleteStudentAsync = createAsyncThunk("students/delete-student", async (studentId, {rejectWithValue})=> {
     try{
         console.log(studentId);
-        const response = await axios.delete(`https://c829d157-5c99-4f78-ad02-70946ce04ba9-00-5vf2f5wnu0lh.sisko.replit.dev/students/${studentId}`);
+        const response = await axios.delete(`https://rx-3-assignment-be.vercel.app/students/${studentId}`);
         console.log(response);
         return response.data;
     }catch(error){

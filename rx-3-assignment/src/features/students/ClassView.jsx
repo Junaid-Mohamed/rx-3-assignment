@@ -43,8 +43,8 @@ const ClassView = () => {
         <label className="filter" htmlFor="genderFilter">Filter by Gender: </label>
         <select onChange={handleFilterChange} name="genderFilter">
             <option value="all">All</option>
-            <option value="male">Boys</option>
-            <option value="female">Girls</option>
+            <option value="Male">Boys</option>
+            <option value="Female">Girls</option>
         </select>
         <br /><br />
         <label  className="filter" htmlFor="sortFilter">Sort by: </label>

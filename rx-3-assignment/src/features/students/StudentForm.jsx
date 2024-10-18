@@ -8,8 +8,10 @@ const StudentForm = () => {
 
     const dispatch = useDispatch();
     
-    const {student} = useLocation().state;
-    console.log(student);
+const student = useLocation().state?.student;
+
+// console.log(student);
+ 
 
     const [studentForm, setStudentForm] = useState({
         id: "",
@@ -21,19 +23,33 @@ const StudentForm = () => {
         marks: ""
     })
 
-    const [errors, setErros] = useState({});
+    const [successMsg, setSuccessMsg] = useState("");
+    const [errors, setErrors] = useState({});
 
     //  prepopulate the form only when student data changes.
     useEffect(()=>{
-        setStudentForm({
-            id: student._id || "",
-            name: student.name|| "",
-            age: student.age || "",
-            grade: student.grade || "",
-            gender: student.gender || "",
-            attendance: student.attendance || "",
-            marks: student.marks || ""
-        })
+        if(student){
+            setStudentForm({
+                id: student._id || "",
+                name: student.name|| "",
+                age: student.age || "",
+                grade: student.grade || "",
+                gender: student.gender || "",
+                attendance: student.attendance || "",
+                marks: student.marks || ""
+            });
+        } else {
+            setStudentForm({
+                id: "",
+                name: "",
+                age: "",
+                grade: "",
+                gender: "",
+                attendance: "",
+                marks: ""
+            });
+        }
+       
     },[student])
 
     const handleChange = (e) => {
@@ -51,7 +67,7 @@ const StudentForm = () => {
             newError.name = "Name is required."
         }
 
-        if(!studentForm.age || studentForm.age < 5 || studentForm.age > 17 ){
+        if(!studentForm.age || studentForm.age < 5 || studentForm.age > 16 ){
             newError.age = !studentForm.age ? "Age is required" : "Age must be between 5 and 16"
         }
 
@@ -78,12 +94,42 @@ const StudentForm = () => {
         // e.preventDefault(); not using this as we are not submiting the form.
         const formErrors = validateForm();
         if(Object.keys(formErrors).length > 0){
-            setErros(formErrors)
+            setErrors(formErrors)
         }else{
-            setErros({});
-            console.log(studentForm);
-            if(student) dispatch(updateStudentAsync(studentForm))
-            else dispatch(addStudentAsync(studentForm))
+            setErrors({});
+           
+            if(student) {
+                dispatch(updateStudentAsync(studentForm));
+                setStudentForm({
+                    id: "",
+                    name: "",
+                    age: "",
+                    grade: "",
+                    gender: "",
+                    attendance: "",
+                    marks: ""
+                });
+                setSuccessMsg("Student updated successfully.")
+                setTimeout(()=>{
+                    setSuccessMsg("");
+                },2000)
+            }
+            else {
+                dispatch(addStudentAsync(studentForm));
+                setStudentForm({
+                    id: "",
+                    name: "",
+                    age: "",
+                    grade: "",
+                    gender: "",
+                    attendance: "",
+                    marks: ""
+                });
+                setSuccessMsg("Student added successfully.")
+                setTimeout(()=>{
+                    setSuccessMsg("");
+                },2000)
+            }
         }
         
     }
@@ -104,8 +150,8 @@ const StudentForm = () => {
             {errors.grade && <p style={{color: "red"}} >{errors.grade}</p> }
             </div>
             <div><label htmlFor="gender" >Gender</label>
-            <input required type="radio" checked={studentForm.gender === "male"} name="gender" className="gender-input" value="male" onChange={handleChange} />Male
-            <input required type="radio" checked={studentForm.gender === "female"} name="gender" className="gender-input" value="female" onChange={handleChange} />Female <br /><br />
+            <input required type="radio" checked={studentForm.gender === "Male"} name="gender" className="gender-input" value="Male" onChange={handleChange} />Male
+            <input required type="radio" checked={studentForm.gender === "Female"} name="gender" className="gender-input" value="Female" onChange={handleChange} />Female <br /><br />
             {errors.gender && <p style={{color: "red"}} >{errors.gender}</p> }
             </div>
             
@@ -120,11 +166,14 @@ const StudentForm = () => {
             </>
             )}
             
-            { student && (<button onClick={handleSubmit} type="button" className="btn btn-primary">Update</button>) ||
-            <button onClick={handleSubmit} type="button" >Add</button>}
+            { student ? (<button onClick={handleSubmit} type="button" className="btn btn-primary">Update</button>) : 
+                (<button onClick={handleSubmit} type="button" >Add</button>) }
+            {/* && (<button onClick={handleSubmit} type="button" className="btn btn-primary">Update</button>) ||
+            <button onClick={handleSubmit} type="button" >Add</button>} */}
             </form>
+            <div className="mt-2" style={{color: 'green'}} ><h4>{successMsg}</h4></div>
         </div>
-        <Footer/>
+      
         </>
     )
 }
