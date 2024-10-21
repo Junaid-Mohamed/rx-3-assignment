@@ -11,6 +11,11 @@ import SchoolView from './features/school/SchoolView.jsx';
 import ClassView from "./features/students/ClassView.jsx";
 import StudentDetail from "./features/students/StudentDetail.jsx";
 import StudentForm from "./features/students/StudentForm.jsx";
+import StudentView from "./features/students/StudentView.jsx";
+import StaffView from "./features/teachers/StaffView.jsx";
+import TeacherDetail from "./features/teachers/TeacherDetail.jsx";
+import TeacherForm from "./features/teachers/TeacherForm.jsx";
+import TeacherView from "./features/teachers/TeacherView.jsx";
 
 
 
@@ -21,8 +26,24 @@ const router = createBrowserRouter([
     element: <App/>
   },
   {
+    path:'/students',
+    element: <StudentView/>
+  },
+  {
+    path:'/teachers',
+    element: <TeacherView/>
+  },
+  {
     path:'/add-student',
     element: <StudentForm/>
+  },
+  {
+    path:'/add-teacher',
+    element: <TeacherForm/>
+  },
+  {
+    path:'/teacher-details/:teacherId',
+    element: <TeacherDetail/>
   },
   {
     path:'/student-details/:studentId',
@@ -35,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: '/class',
     element: <ClassView/>
+  },
+  {
+    path: '/staff',
+    element: <StaffView/>
   }
 ])
 

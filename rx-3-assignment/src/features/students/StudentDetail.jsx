@@ -12,7 +12,7 @@ const StudentDetail = () => {
     // console.log(studentId);
 
     const student = useSelector((state)=> state.students.students.find((stud)=> stud._id === studentId));
-    console.log(student);
+    
 
     const disptach = useDispatch();
 
@@ -35,5 +35,4 @@ const StudentDetail = () => {
         </>
     )
 }
-// to={{pathname:'/add-student', state: {student}}}
 export default StudentDetail;

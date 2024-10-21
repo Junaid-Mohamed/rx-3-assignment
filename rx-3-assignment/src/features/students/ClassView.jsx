@@ -8,7 +8,7 @@ const ClassView = () => {
 
     const dispatch = useDispatch();
     const students = useSelector((state)=> state.students.students);
-    console.log(students);
+
 
     const filter = useSelector((state)=> state.students.filter);
     const sortBy = useSelector((state)=> state.students.sortBy);
@@ -34,7 +34,7 @@ const ClassView = () => {
         return 0
     });
 
-    console.log(sortedStudents);
+
     return(
         <>
         <Header/>
@@ -55,7 +55,7 @@ const ClassView = () => {
         </select>
         <ul className="pt-4" > 
             {sortedStudents?.map((stud)=>(
-                <li>{stud.name} - {stud.gender} - Marks: {stud.marks} - Attendance: {stud.attendance}</li>
+                <li key={stud._id} >{stud.name} - {stud.gender} - Marks: {stud.marks} - Attendance: {stud.attendance}</li>
             ))}
         </ul>
         </div> 
