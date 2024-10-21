@@ -30,7 +30,7 @@ const TeacherView = () => {
             <h1 className="pb-4">Teacher View</h1>
             <Link className="add-student" to="/add-teacher" >Add Teacher</Link>
             <div className="pt-4" >{status === "loading" && <p>Loading....</p>}</div>
-            {status === "error" && <p>error</p>}
+            {status === "error" && <p>{error}</p>}
             {status === "Success" && <TeacherList data={teacherData.teachers}/>}
             </main>
             <Footer/>

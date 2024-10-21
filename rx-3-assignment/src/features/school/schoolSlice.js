@@ -7,16 +7,22 @@ export const schoolSlice = createSlice({
         avgAttendance: 0,
         avgmarks: 0,
         topPerformer: "",
+        totalTeachers: 0,
+        avgExperience:0,
+        mostExperiencedTeacher:"",
         status: 'idle',
         error: null
     },
     reducers: {
         updateSchoolStats: (state,action)=>{
-            const {totalStuds, avgAttendance, avgMarks, topper} = action.payload;
+            const {totalStuds, avgAttendance, avgMarks, topper, avgExp, totalTeachers, mostExperiencedTeacher } = action.payload;
             state.totalStudents = totalStuds,
             state.avgAttendance = avgAttendance,
             state.avgmarks = avgMarks,
-            state.topPerformer = topper
+            state.topPerformer = topper,
+            state.avgExperience = avgExp,
+            state.totalTeachers = totalTeachers,
+            state.mostExperiencedTeacher = mostExperiencedTeacher
         }
     }
 })
